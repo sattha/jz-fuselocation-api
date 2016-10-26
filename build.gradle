@@ -17,7 +17,7 @@ allprojects {
     repositories {
         jcenter()
         maven {
-            url "http://188.166.243.137:8081/artifactory/libs-release-local"
+            url "http://artf.viinsoft.com/artifactory/libs-release-local"
             credentials {
                 username = "${artifactory_username}"
                 password = "${artifactory_password}"
