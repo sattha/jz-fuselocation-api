@@ -134,14 +134,17 @@ public class FixLocationPermissionActivity extends Activity {
             } else {
                 if (rpResult.isSomePermissionDisabled()) {
                     new AlertDialog.Builder(this)
+                            .setCancelable(false)
                             .setMessage(R.string.permission_disable)
                             .setPositiveButton(R.string.fix, (dialog, w) -> {
                                 RP.openAppDetailsActivity(this);
+                                dismissActivity(false);
                             })
                             .setNegativeButton(R.string.cancel, (dialog, w) -> {
                                 dialog.dismiss();
                                 dismissActivity(false);
-                            });
+                            })
+                            .show();
                 } else {
                     dismissActivity(false);
                 }

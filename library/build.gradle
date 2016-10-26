@@ -34,6 +34,10 @@ dependencies {
 
     compile 'com.google.android.gms:play-services-location:9.8.0'
     compile 'com.jz.rp:library:1.0.0'
+    compile 'io.reactivex:rxandroid:1.2.1'
+    compile 'io.reactivex:rxjava:1.2.1'
+    compile 'com.artemzin.rxjava:proguard-rules:1.2.1.0'
+    compile 'com.google.code.gson:gson:2.7'
 
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
@@ -44,7 +48,7 @@ dependencies {
 
 def libraryGroupId = 'com.jz.fuselocation'
 def libraryArtifactId = 'library'
-def libraryVersion = '1.0.0'
+def libraryVersion = '1.0.1'
 
 publishing {
     publications {

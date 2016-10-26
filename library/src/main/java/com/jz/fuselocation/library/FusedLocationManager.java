@@ -21,8 +21,8 @@ import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStates;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.gson.Gson;
-import com.seventhcloud.library.androidcore.permission.RP;
-import com.seventhcloud.library.androidcore.utility.GoogleUtils;
+import com.jz.fuselocation.library.utility.GoogleUtils;
+import com.jz.rp.library.RP;
 
 import java.util.concurrent.TimeUnit;
 
@@ -32,7 +32,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
-import static com.seventhcloud.library.androidcore.Precondition.checkIsIllegalState;
+import static com.jz.fuselocation.library.utility.Precondition.checkIsIllegalState;
 
 /**
  * Created by Sattha Puangput on 7/23/2015.
@@ -321,7 +321,7 @@ public class FusedLocationManager implements GoogleApiClient.ConnectionCallbacks
                             if (error instanceof LocationFetchThrowable) {
                                 updateFailureResultToCaller(
                                         MODE_LAST_LOCATION,
-                                        "failure",
+                                        error.getMessage()+ "",
                                         CODE_RESULT_FAIL);
                             } else if (error instanceof LocationConfigureThrowable) {
                                 // do nothings. its method have already handle it.
@@ -338,7 +338,18 @@ public class FusedLocationManager implements GoogleApiClient.ConnectionCallbacks
             @Override
             public void call(Subscriber<? super Boolean> subscriber) {
 
+                if (!hasStartApi()) {
+                    Log.e(TAG, context.getString(R.string.location_service_not_start));
+                    subscriber.onNext(updateFailureResultToCaller(
+                            mode,
+                            context.getString(R.string.location_service_not_start),
+                            CODE_ERROR_SERVICE_NOT_START));
+                    subscriber.onCompleted();
+                    return;
+                }
+
                 if (!GoogleUtils.isGooglePlayServicesAvailable(context)) {
+                    Log.e(TAG, context.getString(R.string.google_service_fail));
                     subscriber.onNext(updateFailureResultToCaller(
                             mode,
                             context.getString(R.string.google_service_fail),
@@ -348,19 +359,11 @@ public class FusedLocationManager implements GoogleApiClient.ConnectionCallbacks
                 }
 
                 if (!RP.isPermissionGranted(context, locationPermissions)) {
+                    Log.e(TAG, context.getString(R.string.android_permission_fail));
                     subscriber.onNext(updateFailureResultToCaller(
                             mode,
                             context.getString(R.string.android_permission_fail),
                             CODE_ERROR_PERMISSION));
-                    subscriber.onCompleted();
-                    return;
-                }
-
-                if (!hasStartApi()) {
-                    subscriber.onNext(updateFailureResultToCaller(
-                            mode,
-                            context.getString(R.string.location_service_not_start),
-                            CODE_ERROR_SERVICE_NOT_START));
                     subscriber.onCompleted();
                     return;
                 }

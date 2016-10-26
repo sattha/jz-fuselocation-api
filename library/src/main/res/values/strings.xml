@@ -3,4 +3,10 @@
     <string name="permission_disable">Permissions have been disabled, Please allow from location permission before continue.</string>
     <string name="fix">Fix</string>
     <string name="cancel">Cancel</string>
+    <string name="google_service_fail">Google Service not satisfy!</string>
+    <string name="android_permission_fail">Android Permission have not allowed</string>
+    <string name="location_settings_need_fix">Location settings are not satisfied. However, we have no way to fix !</string>
+    <string name="location_settings_fail">Location settings are not satisfied. However, we have no way to fix !</string>
+    <string name="location_service_not_start">FusedLocationManager instance is not call start() yet !</string>
+    <string name="iilegal_state_start_location">start() was called before initialize manager ! or you have cleanUp() this instance</string>
 </resources>
