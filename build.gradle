@@ -6,7 +6,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.2.2'
-
+        classpath 'me.tatarka:gradle-retrolambda:3.3.0'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -15,6 +15,13 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
+        maven {
+            url "http://188.166.243.137:8081/artifactory/libs-release-local"
+            credentials {
+                username = "${artifactory_username}"
+                password = "${artifactory_password}"
+            }
+        }
     }
 }
 
