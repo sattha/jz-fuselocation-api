@@ -20,7 +20,6 @@ import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStates;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
-import com.google.gson.Gson;
 import com.jz.fuselocation.library.utility.GoogleUtils;
 import com.jz.rp.library.RP;
 
@@ -37,10 +36,10 @@ import static com.jz.fuselocation.library.utility.Precondition.checkIsIllegalSta
 /**
  * Created by Sattha Puangput on 7/23/2015.
  */
-public class FusedLocationManager implements GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener, LocationListener {
-
-
+public class FusedLocationManager implements
+        GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener,
+        LocationListener {
 
     private final String TAG = getClass().getSimpleName();
 
@@ -241,6 +240,10 @@ public class FusedLocationManager implements GoogleApiClient.ConnectionCallbacks
                                 locationRequest,
                                 this);
                     }
+                }, error -> {
+                    Log.e(TAG, "requestUpdateLocation()" + error.getMessage());
+                }, () -> {
+
                 });
     }
 
@@ -321,7 +324,7 @@ public class FusedLocationManager implements GoogleApiClient.ConnectionCallbacks
                             if (error instanceof LocationFetchThrowable) {
                                 updateFailureResultToCaller(
                                         MODE_LAST_LOCATION,
-                                        error.getMessage()+ "",
+                                        error.getMessage() + "",
                                         CODE_RESULT_FAIL);
                             } else if (error instanceof LocationConfigureThrowable) {
                                 // do nothings. its method have already handle it.
@@ -672,24 +675,6 @@ public class FusedLocationManager implements GoogleApiClient.ConnectionCallbacks
         } else {
             return false;
         }
-    }
-
-    /**
-     * To String
-     * A method which convert Location object to json string
-     */
-    public String toString(Location loc) {
-        Gson gson = new Gson();
-        return gson.toJson(loc);
-    }
-
-    /**
-     * To Location
-     * A method which convert Json String of Location object object to Location Object
-     */
-    public Location toLocation(String sLocation) {
-        Gson gson = new Gson();
-        return gson.fromJson(sLocation, Location.class);
     }
 
     /**

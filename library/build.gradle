@@ -3,9 +3,20 @@ apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'me.tatarka:gradle-retrolambda:3.3.0'
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
 android {
     compileSdkVersion 25
-    buildToolsVersion "24.0.2"
+    buildToolsVersion "25"
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -23,32 +34,39 @@ android {
     }
     buildTypes {
         release {
+            minifyEnabled true
+            proguardFile 'proguard-google-play-services.pro'
+            proguardFile 'proguard-retrolambda.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'),
+                    'proguard-rules.pro'
+        }
+        debug {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'),
+                    'proguard-rules.pro'
         }
     }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:25.0.0'
 
     compile 'com.google.android.gms:play-services-location:9.8.0'
     compile 'com.jz.rp:library:1.0.0'
     compile 'io.reactivex:rxandroid:1.2.1'
     compile 'io.reactivex:rxjava:1.2.1'
     compile 'com.artemzin.rxjava:proguard-rules:1.2.1.0'
-    compile 'com.google.code.gson:gson:2.7'
 
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:25.0.0'
     testCompile 'junit:junit:4.12'
 }
 
 def libraryGroupId = 'com.jz.fuselocation'
 def libraryArtifactId = 'library'
-def libraryVersion = '1.0.1'
+def libraryVersion = '1.0.6'
 
 publishing {
     publications {

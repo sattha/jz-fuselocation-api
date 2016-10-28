@@ -15,3 +15,6 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+-keep class com.jz.fuselocation.library.** { *; }
+-keep public class com.jz.fuselocation.library.** { public protected *; }
