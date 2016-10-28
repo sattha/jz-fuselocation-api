@@ -1,18 +1,8 @@
 apply plugin: 'com.android.library'
 apply plugin: 'me.tatarka.retrolambda'
-apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'maven-publish'
+apply plugin: 'com.github.dcendents.android-maven'
 
-buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath 'me.tatarka:gradle-retrolambda:3.3.0'
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
-    }
-}
+group='com.github.sattha'
 
 android {
     compileSdkVersion 25
@@ -53,7 +43,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.0.0'
 
     compile 'com.google.android.gms:play-services-location:9.8.0'
-    compile 'com.jz.rp:library:1.0.0'
+    compile 'com.github.sattha:jz-runtime-permission:1.0.0'
     compile 'io.reactivex:rxandroid:1.2.1'
     compile 'io.reactivex:rxjava:1.2.1'
     compile 'com.artemzin.rxjava:proguard-rules:1.2.1.0'
@@ -64,37 +54,42 @@ dependencies {
     testCompile 'junit:junit:4.12'
 }
 
-def libraryGroupId = 'com.jz.fuselocation'
-def libraryArtifactId = 'library'
-def libraryVersion = '1.0.6'
 
-publishing {
-    publications {
-        aar(MavenPublication) {
-            groupId libraryGroupId
-            version libraryVersion
-            artifactId libraryArtifactId
 
-            artifact("$buildDir/outputs/aar/${artifactId}-release.aar")
-        }
-    }
-}
 
-artifactory {
-    contextUrl = 'http://artf.viinsoft.com/artifactory'
-    publish {
-        repository {
-            repoKey = 'libs-release-local'
 
-            username = artifactory_username
-            password = artifactory_password
-        }
-        defaults {
-            publications('aar')
-            publishArtifacts = true
 
-            properties = ['qa.level': 'basic', 'q.os': 'android', 'dev.team': 'core']
-            publishPom = true
-        }
-    }
-}
+//def libraryGroupId = 'com.jz.fuselocation'
+//def libraryArtifactId = 'library'
+//def libraryVersion = '1.0.6'
+//
+//publishing {
+//    publications {
+//        aar(MavenPublication) {
+//            groupId libraryGroupId
+//            version libraryVersion
+//            artifactId libraryArtifactId
+//
+//            artifact("$buildDir/outputs/aar/${artifactId}-release.aar")
+//        }
+//    }
+//}
+//
+//artifactory {
+//    contextUrl = 'http://artf.viinsoft.com/artifactory'
+//    publish {
+//        repository {
+//            repoKey = 'libs-release-local'
+//
+//            username = artifactory_username
+//            password = artifactory_password
+//        }
+//        defaults {
+//            publications('aar')
+//            publishArtifacts = true
+//
+//            properties = ['qa.level': 'basic', 'q.os': 'android', 'dev.team': 'core']
+//            publishPom = true
+//        }
+//    }
+//}
