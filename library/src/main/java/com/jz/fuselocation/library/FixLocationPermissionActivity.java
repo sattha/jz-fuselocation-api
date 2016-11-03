@@ -83,14 +83,8 @@ public class FixLocationPermissionActivity extends Activity {
                 Dialog errorDialog = googleApiAvailability
                         .getErrorDialog(this, status, REQUEST_CODE_PLAY_SERVICES);
 
-                errorDialog.setCancelable(false);
                 errorDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_TOAST);
-                errorDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                    @Override
-                    public void onCancel(DialogInterface dialogInterface) {
-                        resolveGooglePlay();
-                    }
-                });
+                errorDialog.setOnCancelListener(dialogInterface -> showGooglePlayFailDialog());
                 errorDialog.show();
             }
         } else {
@@ -160,27 +154,19 @@ public class FixLocationPermissionActivity extends Activity {
             dismissActivity(resultCode == Activity.RESULT_OK);
         } else if (requestCode == REQUEST_CODE_PLAY_SERVICES) {
             if (resultCode == Activity.RESULT_CANCELED) {
-                new AlertDialog.Builder(this)
-                        .setMessage("unable to resolve Google Play services.")
-                        .setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dismissActivity(false);
-                            }
-                        })
-                        .setOnCancelListener(new DialogInterface.OnCancelListener() {
-                            @Override
-                            public void onCancel(DialogInterface dialogInterface) {
-                                dismissActivity(false);
-                            }
-                        })
-                        .show();
-            } else if (resultCode == Activity.RESULT_OK) {
-                dismissActivity(true);
-            }  else {
-                dismissActivity(false);
+                showGooglePlayFailDialog();
+            } else {
+                dismissActivity(resultCode == Activity.RESULT_OK);
             }
         }
+    }
+
+    private void showGooglePlayFailDialog() {
+        new AlertDialog.Builder(this)
+                .setMessage("unable to resolve Google Play services.")
+                .setPositiveButton("ok", (dialogInterface, i) -> dismissActivity(false))
+                .setOnCancelListener(dialogInterface -> dismissActivity(false))
+                .show();
     }
 
     @Override

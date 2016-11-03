@@ -1,5 +1,6 @@
 package com.jz.fuselocation.app;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,6 +15,7 @@ import com.jz.fuselocation.library.FusedLocationManager;
 import com.jz.fuselocation.library.LocationResult;
 import com.jz.fuselocation.library.OnLocationResponse;
 import com.jz.fuselocation.library.OnLocationUpdate;
+import com.jz.fuselocation.library.utility.GoogleUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -77,9 +79,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    protected void onPause() {
+    protected void onDestroy() {
         manager.stop();
-        super.onPause();
+        super.onDestroy();
     }
 
     @Override

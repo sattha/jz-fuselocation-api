@@ -213,7 +213,6 @@ public class FusedLocationManager implements
         // again if the user has resolved the issue (resultCode is RESULT_OK).
 
         Log.e(TAG, connectionResult.getErrorCode() + ": " + connectionResult.getErrorMessage());
-        stop();
     }
 
     @Override
@@ -341,22 +340,22 @@ public class FusedLocationManager implements
             @Override
             public void call(Subscriber<? super Boolean> subscriber) {
 
-                if (!hasStartApi()) {
-                    Log.e(TAG, context.getString(R.string.location_service_not_start));
-                    subscriber.onNext(updateFailureResultToCaller(
-                            mode,
-                            context.getString(R.string.location_service_not_start),
-                            CODE_ERROR_SERVICE_NOT_START));
-                    subscriber.onCompleted();
-                    return;
-                }
-
                 if (!GoogleUtils.isGooglePlayServicesAvailable(context)) {
                     Log.e(TAG, context.getString(R.string.google_service_fail));
                     subscriber.onNext(updateFailureResultToCaller(
                             mode,
                             context.getString(R.string.google_service_fail),
                             CODE_ERROR_GOOGLE_PLAY));
+                    subscriber.onCompleted();
+                    return;
+                }
+
+                if (!hasStartApi()) {
+                    Log.e(TAG, context.getString(R.string.location_service_not_start));
+                    subscriber.onNext(updateFailureResultToCaller(
+                            mode,
+                            context.getString(R.string.location_service_not_start),
+                            CODE_ERROR_SERVICE_NOT_START));
                     subscriber.onCompleted();
                     return;
                 }

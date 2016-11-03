@@ -24,7 +24,7 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFile 'proguard-google-play-services.pro'
             proguardFile 'proguard-retrolambda.pro'
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'),
@@ -53,43 +53,3 @@ dependencies {
     })
     testCompile 'junit:junit:4.12'
 }
-
-
-
-
-
-
-//def libraryGroupId = 'com.jz.fuselocation'
-//def libraryArtifactId = 'library'
-//def libraryVersion = '1.0.6'
-//
-//publishing {
-//    publications {
-//        aar(MavenPublication) {
-//            groupId libraryGroupId
-//            version libraryVersion
-//            artifactId libraryArtifactId
-//
-//            artifact("$buildDir/outputs/aar/${artifactId}-release.aar")
-//        }
-//    }
-//}
-//
-//artifactory {
-//    contextUrl = 'http://artf.viinsoft.com/artifactory'
-//    publish {
-//        repository {
-//            repoKey = 'libs-release-local'
-//
-//            username = artifactory_username
-//            password = artifactory_password
-//        }
-//        defaults {
-//            publications('aar')
-//            publishArtifacts = true
-//
-//            properties = ['qa.level': 'basic', 'q.os': 'android', 'dev.team': 'core']
-//            publishPom = true
-//        }
-//    }
-//}
